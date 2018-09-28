@@ -34,6 +34,27 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/newsScraper", { useNewUrlParser: true });
 
 
+//Mongoose Settings
+
+const {User} = require('./models');
+const mongoose = require('mongoose');
+
+console.log('mongoose initialized');
+
+app.use((req, res, next) => {
+  console.log('use for mongoose callback');
+
+  if(mongoose.connection.readyState) {
+    console.log('if (mongoose.connewction.readyState)')
+    next();
+  } else {
+    console.log('else (mongoose.connecton.readyState)')
+    require('./mongo')().then(() => next());
+    console.log('else (mongoose.connecton.readyState)')
+  }
+    
+  });
+
 
 // Routes
 
